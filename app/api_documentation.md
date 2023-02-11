@@ -60,7 +60,7 @@ Returns information about the current user that is logged in.
     ```json
     {
       "id": 1,
-      "username": "jsmith"
+      "username": "jsmith",
       "email": "john.smith@gmail.com",
     }
     ```
@@ -96,7 +96,7 @@ information.
     ```json
     {
       "id": 1,
-      "username": "jsmith"
+      "username": "jsmith",
       "email": "john.smith@gmail.com",
       "token": ""
     }
@@ -169,7 +169,7 @@ user's information.
       "id": 1,
       "username": "jsmith"
       "email": "john.smith@gmail.com",
-      "is_business": true
+      "is_business": true,
       "token": ""
     }
     ```
@@ -186,7 +186,7 @@ user's information.
       "message": "User already exists",
       "statusCode": 403,
       "errors": {
-        "email": "User with that email already exists"
+        "email": "User with that email already exists",
         "username": "User with that username already exists"
       }
     }
@@ -292,7 +292,8 @@ user's information.
         "phone": "Invalid phone",
         "timezone": "Invalid timezone",
         "currency": "Invalid currency",
-        "about_location": "Invalid about location"
+        "about_location": "Invalid about location",
+        "payment_types": "Payment types must be of the following: "
       }
     }
     ```
@@ -340,6 +341,7 @@ Returns information about a business by id
 Update business data by id
 
 - Require Authentication: true
+- Require proper authorization: Business must belong to the current user
 - Request
 
   - Method: /PUT
@@ -417,16 +419,30 @@ Update business data by id
         "phone": "Invalid phone",
         "timezone": "Invalid timezone",
         "currency": "Invalid currency",
-        "about_location": "Invalid about location"
+        "about_location": "Invalid about location",
+        "payment_types": "Payment types must be of the following: "
       }
     }
     ```
+- Error response: Couldn't find business with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Business could not be found",
+        "statusCode": 404
+    }
 
 ## Delete business by id
 
 Delete a business by id
 
 - Require Authentication: true
+- Require proper authorization: Business must belong to the current user
 - Request
 
   - Method: /DELETE
@@ -463,9 +479,6 @@ Delete a business by id
     ```
 
 ### FEATURE 2: MENUS
-
-- Create
-  - A business account is able to create a menu, which is a collection of items being sold
 
 ### Create menu
 
@@ -504,9 +517,38 @@ Create a menu for a business
       "active": true
     }
     ```
+- Error response: Body validation errors
 
-- Read
-  - Any logged in user can read a business' menu
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {
+        "name": "Invalid name",
+        "description": "Description required"
+      },
+      "active": "expected a boolean"
+    }
+    ```
+
+- Error response: Couldn't find business with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Business could not be found",
+        "statusCode": 404
+    }
+    ```
 
 ### Get menu by id
 
@@ -516,7 +558,7 @@ Returns information about a menu by id
 - Request
 
   - Method: GET
-  - URL: /api/businesses/:businessId/menus/:menuId
+  - URL: /api/menus/:menuId
   - Body: none
 
 - Successful Response
@@ -533,6 +575,19 @@ Returns information about a menu by id
       "name": "Menu name",
       "description": "Menu description",
       "active": true
+    }
+    ```
+- Error response: Couldn't find a menu with the specified id
+
+  - Status Code: 404
+
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+    ```json
+    {
+        "message": "Business could not be found",
+        "statusCode": 404
     }
     ```
 
@@ -573,8 +628,19 @@ Returns information about all menus of a business
     ]
     ```
 
-- Update
-  - A business account is able to update information about their menus
+- Error response: Couldn't find business with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Business could not be found",
+        "statusCode": 404
+    }
+    ```
 
 ### Update menu by id
 
@@ -633,8 +699,19 @@ Update menu data by id
     }
     ```
 
-- Delete
-  - A business account is able to delete their menus
+- Error response: Couldn't find menu with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Business could not be found",
+        "statusCode": 404
+    }
+    ```
 
 ### Delete menu by id
 
@@ -701,7 +778,6 @@ Create an item for a menu
         "16oz": 7.99
       },
       "type": "Milk Tea",
-      "active": true
     }
     ```
 
@@ -724,7 +800,40 @@ Create an item for a menu
         "16oz": 7.99
       },
       "type": "Milk Tea",
-      "active": true
+    }
+    ```
+
+- Error response: Body validation errors
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {
+        "name": "Invalid name",
+        "description": "Invalid description",
+        "prices": "Price/s required",
+        "type": "Type must be of the following: "
+      }
+    }
+    ```
+
+- Error response: Couldn't find menu with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Menu could not be found",
+        "statusCode": 404
     }
     ```
 
@@ -759,7 +868,6 @@ Returns information about all items of a menu
           "16oz": 7.99
         },
         "type": "Milk Tea",
-        "active": true
       },
       {
         "id": 2,
@@ -772,11 +880,22 @@ Returns information about all items of a menu
           "16oz": 7.99
         },
         "type": "Milk Tea",
-        "active": true
       }
     ]
     ```
+- Error response: Couldn't find menu with the specified id
 
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Menu could not be found",
+        "statusCode": 404
+    }
+    ```
 ### Update item by id
 
 Update item data by id
@@ -800,7 +919,6 @@ Update item data by id
         "16oz": 7.99
       },
       "type": "Milk Tea",
-      "active": true
     }
     ```
 
@@ -823,7 +941,6 @@ Update item data by id
         "16oz": 7.99
       },
       "type": "Milk Tea",
-      "active": true
     }
     ```
 
@@ -842,11 +959,23 @@ Update item data by id
         "name": "Invalid name",
         "description": "Invalid description",
         "prices": "Invalid prices",
-        "type": "Invalid type",
-        "active": "Invalid active"
+        "type": "Invalid type"
       }
     }
     ```
+
+- Error response: Couldn't find item with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Item could not be found",
+        "statusCode": 404
+    }
 
 ### Delete item by id
 
@@ -973,15 +1102,28 @@ Get a user's wishlist by user id
     ]
     ```
 
+- Error Response
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+    ```json
+    {
+        "message": "User could not be found",
+        "statusCode": 404
+    }
+    ```
+
 ### Delete item from wishlist
 
 Delete an item from a user's wishlist
 
 - Require Authentication: true
+- Require proper authorization: Wishlist must belong to the current user
 - Request
 
   - Method: /DELETE
-  - URL: /api/users/:userId/wishlists/:itemId
+  - URL: /api/users/:userId/wishlists/:wishlistItemId
   - Headers:
     - Content-Type: application/json
   - Body: none
@@ -1008,7 +1150,7 @@ Delete an item from a user's wishlist
 
     ```json
     {
-      "message": "Item not found",
+      "message": "Item not found in the wishlist",
       "statusCode": 404
     }
     ```
@@ -1017,13 +1159,11 @@ Delete an item from a user's wishlist
 
 ### Add check-in
 
-Add a check-in
-
 - Require Authentication: true
 - Request
 
   - Method: POST
-  - URL: /api/users/:userId/checkins/
+  - URL: /api/users/:userId/checkins
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1055,6 +1195,8 @@ Add a check-in
       "date_created": "2020-01-01T00:00:00.000Z"
     }
     ```
+
+- Error Response: Body validations
 
 ### Read users check-ins
 
@@ -1099,14 +1241,13 @@ Get a user's check-ins by user id
     ]
     ```
 
-- Update
-  - A logged in user is able to edit their check-ins within a time-frame, incase a mistake was made on input
 
 ### Update a users check-in
 
 Update a user's check-in by check-in id
 
 - Require Authentication: true
+- Require proper authorization: Check-in must belong to the current user
 - Request
 
   - Method: PUT
@@ -1143,14 +1284,12 @@ Update a user's check-in by check-in id
     }
     ```
 
-- Delete
-  - A logged in user is able to delete their check-ins within a time-frame, incase a mistake was made
-
 ### Delete a users check-in
 
 Delete a user's check-in by check-in id
 
 - Require Authentication: true
+- Require proper authorization: Check-in must belong to the current user
 - Request
 
   - Method: DELETE
