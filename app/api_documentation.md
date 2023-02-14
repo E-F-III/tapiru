@@ -720,10 +720,11 @@ Update menu data by id
 Delete a menu by id
 
 - Require Authentication: true
+- Require proper authorization: Menu must be owned a business created by the current user
 - Request
 
   - Method: /DELETE
-  - URL: /api/businesses/:businessId/menus/:menuId
+  - URL: /api/menus/:menuId
   - Headers:
     - Content-Type: application/json
   - Body: none
@@ -762,6 +763,7 @@ Delete a menu by id
 Create an item for a menu
 
 - Require Authentication: true
+- Require proper authorization: Menu must be owned a business created by the current user
 - Request
 
   - Method: POST
