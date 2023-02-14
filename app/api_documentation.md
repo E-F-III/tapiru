@@ -485,6 +485,7 @@ Delete a business by id
 Create a menu for a business
 
 - Require Authentication: true
+- Require proper authorization: Business must belong to the current user
 - Request
 
   - Method: POST
