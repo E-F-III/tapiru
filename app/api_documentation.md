@@ -648,10 +648,11 @@ Returns information about all menus of a business
 Update menu data by id
 
 - Require Authentication: true
+- Require proper authorization: Menu must be owned a business created by the current user
 - Request
 
   - Method: /PUT
-  - URL: /api/businesses/:businessId/menus/:menuId
+  - URL: /api/menus/:menuId
   - Headers:
     - Content-Type: application/json
   - Body:
