@@ -1030,6 +1030,7 @@ Delete an item by id
 Add an item to a user's wishlist
 
 - Require Authentication: true
+- Require proper authorization: Wishlist must be owned by the current user
 - Request
 
   - Method: POST
@@ -1289,6 +1290,20 @@ Update a user's check-in by check-in id
       "date_modified": "2020-01-01T00:00:00.000Z"
     }
     ```
+
+- Error response: Check-in not found
+
+- Status Code: 404
+- Headers:
+  - Content-Type: application/json
+- Body:
+
+  ```json
+  {
+    "message": "Check-in not found",
+    "statusCode": 404
+  }
+  ```
 
 ### Delete a users check-in
 
