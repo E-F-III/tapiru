@@ -905,6 +905,7 @@ Returns information about all items of a menu
 Update item data by id
 
 - Require Authentication: true
+- Require proper authorization: - Require proper authorization: Item must be owned a business created by the current user
 - Request
 
   - Method: /PUT
@@ -986,6 +987,7 @@ Update item data by id
 Delete an item by id
 
 - Require Authentication: true
+- Require proper authorization: Item must belong to a business owned by the current user
 - Request
 
   - Method: /DELETE
