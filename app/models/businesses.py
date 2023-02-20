@@ -20,8 +20,8 @@ class Business(db.Model):
     currency = db.Column(db.String(255), nullable=False)
     about_location = db.Column(db.String(255), nullable=False)
 
-    #Relationships for Businesses:
-    owner = db.relationship("User", back_populates="businesses")
+    #Relationships for Business: ( 1 - 1 Business and Owner)
+    owner = db.relationship("User", back_populates="business")
 
     # Businesses --> Menu Relationship:
     # menus = db.relationship("Menu", back_populates="")

@@ -18,8 +18,8 @@ class User(db.Model, UserMixin):
     is_business = db.Column(db.Boolean, nullable=False, default=False)
 
     #Relationships for User:
-    #User can have multiple businesses?
-    businesses = db.relationship("Business", back_populates="owner")
+    #User can have multiple businesses? No. (1 - 1 User / Business)
+    business = db.relationship("Business", back_populates="owner")
 
 
     @property
@@ -39,5 +39,5 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email,
             'is_business': self.is_business,
-            'businesses': [business.id for business in self.businesses]
+            'business': self.business[0].id
         }
