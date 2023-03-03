@@ -24,7 +24,7 @@ class Business(db.Model):
     owner = db.relationship("User", back_populates="business")
 
     # Businesses --> Menu Relationship:
-    # menus = db.relationship("Menu", back_populates="")
+    menus = db.relationship("Menu", back_populates="")
 
 
     def to_dict(self):
