@@ -1,7 +1,7 @@
 # from sqlalchemy import func
 from .db import db, environment, SCHEMA
 
-class PaymentType(db.Model):
+class Payment_Type(db.Model):
   __tablename__ = "payment_types"
 
   if environment == "production":

@@ -1,6 +1,6 @@
 from .db import db, environment, SCHEMA
 
-class BusinessPayment(db.Model):
+class Business_Payment(db.Model):
   __tablename__ = "businessPayments"
 
   if environment == "production":
