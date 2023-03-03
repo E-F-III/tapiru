@@ -7,12 +7,12 @@ class Drink_Prices(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     # columns
-    id = db.column(db.integer, primary_key=True)
-    size = db.column(db.String(), nullable=False)
-    price = db.column(db.Integer(), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    size = db.Column(db.String(), nullable=False)
+    price = db.Column(db.Integer(), nullable=False)
 
     # foreign keys
-    drink_id = db.column(db.String(), db.ForeignKey('drinks.id'), nullable=False)
+    drink_id = db.Column(db.String(), db.ForeignKey('drinks.id'), nullable=False)
 
     # relationships
     drinks = db.relationship("Drink", back_populates="drink_types")
