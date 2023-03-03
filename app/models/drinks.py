@@ -8,17 +8,22 @@ class Drinks(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
     
+    
+    ## columns
     id = db.column(db.integer, primary_key=True)
-    menu_id = db.column(db.integer, nullable=False)
     drink_type = db.column(db.integer, nullable=False)
     name = db.column(db.string, nullable=False)
     description = db.column(db.string, nullable=False)
     image = db.column(db.string)
     
+    ## foreign keys
+    menu_id = db.column(db.integer, db.ForeignKey('menus.id'), nullable=False)
+    
+    
     ##relationships
-    # wishlist = db.relationship("Wishlists", back_populates="drinks")
-    # checkin = db.relationship("Checkins", back_populates="drinks")
-    # drink_prices = db.relationship("Drink_Prices", back_populates="drinks")
+    wishlist = db.relationship("Wishlists", back_populates="drinks")
+    checkin = db.relationship("Checkins", back_populates="drinks")
+    drink_prices = db.relationship("Drink_Prices", back_populates="drinks")
     
     def to_dict(self):
         response = {

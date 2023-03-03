@@ -8,12 +8,16 @@ class Toppings(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
     
+    ## columns
     id = db.column(db.integer, primary_key=True)
-    menu_id = db.column(db.integer(), nullable=False)
     name = db.column(db.string(), nullable=False)
     price = db.column(db.integer(), nullable=False) ## price will be in cents and converted to dollars in front-end 
     ## price example 420 = $4.20 in frontend
     
+    ## foreign keys
+    menu_id = db.column(db.integer(), db.ForeignKey('menus.id'),nullable=False)
+    
+    ## relationships
     menu = db.relationship("Menus", back_populates="toppings_relationship")
     
     
