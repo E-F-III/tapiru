@@ -1,9 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
-from .db import db
+from .db import db, environment, SCHEMA
 from sqlalchemy.orm import relationship
 
 class Toppings(db.Model):
     __tablename__ = 'toppings'
+    
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
     
     id = db.column(db.integer, primary_key=True)
     menu_id = db.column(db.integer(), nullable=False)
