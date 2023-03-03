@@ -10,14 +10,14 @@ class Drinks(db.Model):
 
 
     ## columns
-    id = db.column(db.Integer, primary_key=True)
-    drink_type = db.column(db.Integer, nullable=False)
-    name = db.column(db.String(), nullable=False)
-    description = db.column(db.String(), nullable=False)
-    image = db.column(db.String())
+    id = db.Column(db.Integer, primary_key=True)
+    drink_type = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(), nullable=False)
+    description = db.Column(db.String(), nullable=False)
+    image = db.Column(db.String())
 
     ## foreign keys
-    menu_id = db.column(db.Integer, db.ForeignKey('menus.id'), nullable=False)
+    menu_id = db.Column(db.Integer, db.ForeignKey('menus.id'), nullable=False)
 
 
     ##relationships
