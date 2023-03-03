@@ -7,8 +7,8 @@ class Drink_Types(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     # columns
-    id = db.column(db.integer, primary_key=True)
-    type = db.column(db.String(), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(), nullable=False)
 
     # relationships
     drinks = db.relationship("Drink", back_populates="drink_types")

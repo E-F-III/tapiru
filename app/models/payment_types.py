@@ -1,8 +1,8 @@
 # from sqlalchemy import func
 from .db import db, environment, SCHEMA
 
-class PaymentType(db.Model):
-  __tablename__ = "paymentTypes"
+class Payment_Type(db.Model):
+  __tablename__ = "payment_types"
 
   if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -11,10 +11,10 @@ class PaymentType(db.Model):
   type = db.Column("type", db.String, nullable=False)
 
 # FOREIGN KEY
-  user_id = db.Column(db.integer, db.ForeignKey("users.id"), nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
 # RELATIONSHIP
-  businessPayments = db.relationship("BusinessPayments", back_populates="paymentType", cascade="all, delete")
+  businessPayments = db.relationship("BusinessPayments", back_populates="payment_type", cascade="all, delete")
 
   def to_dict(self):
     return {

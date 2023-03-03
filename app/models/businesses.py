@@ -9,7 +9,7 @@ class Business(db.Model):
 
     name = db.Column(db.String(255), nullable=False)
     logo_url = db.Column(db.String(255), nullable=False)
-    street_address = db.Column(db.Varchar(255), nullable=False)
+    street_address = db.Column(db.String(255), nullable=False)
     city = db.Column(db.String(255), nullable=False)
     region = db.Column(db.String(255), nullable=False)
     postal_code = db.Column(db.Integer, nullable=False)
@@ -24,7 +24,7 @@ class Business(db.Model):
     owner = db.relationship("User", back_populates="business")
 
     # Businesses --> Menu Relationship:
-    # menus = db.relationship("Menu", back_populates="")
+    menus = db.relationship("Menu", back_populates="")
 
 
     def to_dict(self):

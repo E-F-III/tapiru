@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA
 
-class BusinessPayment(db.Model):
-  __tablename__ = "businessPayments"
+class Business_Payment(db.Model):
+  __tablename__ = "business_payments"
 
   if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -11,7 +11,7 @@ class BusinessPayment(db.Model):
   type_id = db.Column("type_id", db.Integer, nullable=False)
 
 # FOREIGN KEY
-  user_id = db.Column(db.integer, db.ForeignKey("users.id"), nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
 # RELATIONSHIP
   paymentTypes = db.relationship("paymentTypes", back_populates="businessPayment", cascade="all, delete")
