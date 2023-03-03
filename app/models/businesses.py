@@ -9,7 +9,7 @@ class Business(db.Model):
 
     name = db.Column(db.String(255), nullable=False)
     logo_url = db.Column(db.String(255), nullable=False)
-    street_address = db.Column(db.Varchar(255), nullable=False)
+    street_address = db.Column(db.String(255), nullable=False)
     city = db.Column(db.String(255), nullable=False)
     region = db.Column(db.String(255), nullable=False)
     postal_code = db.Column(db.Integer, nullable=False)
