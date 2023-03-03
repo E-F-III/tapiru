@@ -7,7 +7,7 @@ class Wishlist(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     # columns
-    id = db.Column(db.integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
 
     # foreign keys
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
