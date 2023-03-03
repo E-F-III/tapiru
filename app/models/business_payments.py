@@ -11,7 +11,7 @@ class Business_Payment(db.Model):
   type_id = db.Column("type_id", db.Integer, nullable=False)
 
 # FOREIGN KEY
-  user_id = db.Column(db.integer, db.ForeignKey("users.id"), nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
 # RELATIONSHIP
   paymentTypes = db.relationship("paymentTypes", back_populates="businessPayment", cascade="all, delete")
