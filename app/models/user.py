@@ -14,6 +14,14 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    #For our user if they own a Business
+    is_business = db.Column(db.Boolean, nullable=False, default=False)
+
+    #Relationships for User:
+    #User can have multiple businesses? No. (1 - 1 User / Business)
+    business = db.relationship("Business", back_populates="owner")
+
+
     @property
     def password(self):
         return self.hashed_password
@@ -29,5 +37,7 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'is_business': self.is_business,
+            'business': self.business[0].id
         }
