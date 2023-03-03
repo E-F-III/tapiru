@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA
 
 class Business_Payment(db.Model):
-  __tablename__ = "businessPayments"
+  __tablename__ = "business_payments"
 
   if environment == "production":
         __table_args__ = {'schema': SCHEMA}
