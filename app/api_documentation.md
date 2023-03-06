@@ -758,24 +758,24 @@ Delete a menu by id
 
 ### FEATURE 3: ITEMS
 
-### Create item for a menu
+### Create drink for a menu
 
-Create an item for a menu
+Create a drink for a menu
 
 - Require Authentication: true
 - Require proper authorization: Menu must be owned a business created by the current user
 - Request
 
   - Method: POST
-  - URL: /api/menus/:menuId/items
+  - URL: /api/menus/:menuId/drinks
   - Headers:
     - Content-Type: application/json
   - Body:
 
     ```json
     {
-      "name": "Item name",
-      "description": "Item description",
+      "name": "Drink name",
+      "description": "Drink description",
       "prices": {
         "8oz": 5.99,
         "12oz": 6.99,
@@ -796,8 +796,8 @@ Create an item for a menu
     {
       "id": 1,
       "menu_id": 1,
-      "name": "Item name",
-      "description": "Item description",
+      "name": "Drink name",
+      "description": "Drink description",
       "prices": {
         "8oz": 5.99,
         "12oz": 6.99,
@@ -841,6 +841,73 @@ Create an item for a menu
     }
     ```
 
+Create a topping for a menu
+
+- Require Authentication: true
+- Require proper authorization: Menu must be owned a business created by the current user
+- Request
+
+  - Method: POST
+  - URL: /api/menus/:menuId/toppings
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "name": "topping name",
+      "price": 0.99
+    }
+    ```
+
+- Successful Response
+
+  - Status Code: 201
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 1,
+      "menu_id": 1,
+      "name": "Item name",
+      "price": 0.99,
+    }
+    ```
+
+- Error response: Body validation errors
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {
+        "name": "Invalid name",
+        "prices": "Price/s required",
+      }
+    }
+    ```
+
+- Error response: Couldn't find menu with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Menu could not be found",
+        "statusCode": 404
+    }
+    ```
+
 ### Get items of a menu by id
 
 Returns information about all items of a menu
@@ -860,32 +927,49 @@ Returns information about all items of a menu
   - Body:
 
     ```json
-    [
-      {
-        "id": 1,
-        "menu_id": 1,
-        "name": "Item name",
-        "description": "Item description",
-        "prices": {
-          "8oz": 5.99,
-          "12oz": 6.99,
-          "16oz": 7.99
+    {
+      "drinks": [
+        {
+          "id": 1,
+          "menu_id": 1,
+          "name": "Item name",
+          "description": "Item description",
+          "prices": {
+            "8oz": 5.99,
+            "12oz": 6.99,
+            "16oz": 7.99
+          },
+          "type": "Milk Tea",
         },
-        "type": "Milk Tea",
-      },
-      {
-        "id": 2,
-        "menu_id": 1,
-        "name": "Item name 2",
-        "description": "Item description 2",
-        "prices": {
-          "8oz": 5.99,
-          "12oz": 6.99,
-          "16oz": 7.99
+        {
+          "id": 2,
+          "menu_id": 1,
+          "name": "Item name 2",
+          "description": "Item description 2",
+          "prices": {
+            "8oz": 5.99,
+            "12oz": 6.99,
+            "16oz": 7.99
+          },
+          "type": "Milk Tea",
+        }
+      ],
+      "toppings": [
+        {
+          "id": 1,
+          "menu_id": 1,
+          "name": "tapioca",
+          "price": 0.99
         },
-        "type": "Milk Tea",
-      }
-    ]
+        {
+          "id": 1,
+          "menu_id": 1,
+          "name": "lychee jelly",
+          "price": 0.99
+        }
+      ]
+    }
+
     ```
 - Error response: Couldn't find menu with the specified id
 
@@ -900,24 +984,24 @@ Returns information about all items of a menu
         "statusCode": 404
     }
     ```
-### Update item by id
+### Update drink by id
 
-Update item data by id
+Update drink data by id
 
 - Require Authentication: true
-- Require proper authorization: - Require proper authorization: Item must be owned a business created by the current user
+- Require proper authorization: - Require proper authorization: Drink must be owned a business created by the current user
 - Request
 
   - Method: /PUT
-  - URL: /api/items/:itemId
+  - URL: /api/drinks/:drinksId
   - Headers:
     - Content-Type: application/json
   - Body:
 
     ```json
     {
-      "name": "Item name",
-      "description": "Item description",
+      "name": "Drink name",
+      "description": "Drink description",
       "prices": {
         "8oz": 5.99,
         "12oz": 6.99,
@@ -938,8 +1022,8 @@ Update item data by id
     {
       "id": 1,
       "menu_id": 1,
-      "name": "Item name",
-      "description": "Item description",
+      "name": "Drink name",
+      "description": "Drink description",
       "prices": {
         "8oz": 5.99,
         "12oz": 6.99,
@@ -969,7 +1053,7 @@ Update item data by id
     }
     ```
 
-- Error response: Couldn't find item with the specified id
+- Error response: Couldn't find drink with the specified id
 
   - Status Code: 404
   - Headers:
@@ -978,20 +1062,89 @@ Update item data by id
 
     ```json
     {
-        "message": "Item could not be found",
+        "message": "Drink could not be found",
         "statusCode": 404
     }
 
-### Delete item by id
+### Update topping by id
 
-Delete an item by id
+Update topping data by id
 
 - Require Authentication: true
-- Require proper authorization: Item must belong to a business owned by the current user
+- Require proper authorization: - Require proper authorization: Topping must be owned a business created by the current user
+- Request
+
+  - Method: /PUT
+  - URL: /api/toppings/:toppingId
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "name": "Topping name",
+      "price": 0.99,
+      "type": "Milk Tea",
+    }
+    ```
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "id": 1,
+      "menu_id": 1,
+      "name": "Topping name",
+      "price": 0.99,
+    }
+    ```
+
+- Error response: Body validation errors
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {
+        "name": "Invalid name",
+        "prices": "Invalid prices",
+      }
+    }
+    ```
+
+- Error response: Couldn't find topping with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+        "message": "Topping could not be found",
+        "statusCode": 404
+    }
+
+### Delete drink by id
+
+Delete a drink by id
+
+- Require Authentication: true
+- Require proper authorization: Drink must belong to a business owned by the current user
 - Request
 
   - Method: /DELETE
-  - URL: /api/items/:itemId
+  - URL: /api/drinks/:drinkId
   - Headers:
     - Content-Type: application/json
   - Body: none
@@ -1005,11 +1158,11 @@ Delete an item by id
 
     ```json
     {
-      "message": "Item deleted"
+      "message": "Drink deleted"
     }
     ```
 
-- Error response: Item not found
+- Error response: Drink not found
 
   - Status Code: 404
   - Headers:
@@ -1018,16 +1171,57 @@ Delete an item by id
 
     ```json
     {
-      "message": "Item not found",
+      "message": "Drink not found",
+      "statusCode": 404
+    }
+    ```
+
+### Delete topping by id
+
+Delete a topping by id
+
+- Require Authentication: true
+- Require proper authorization: Topping must belong to a business owned by the current user
+- Request
+
+  - Method: /DELETE
+  - URL: /api/toppings/:toppingId
+  - Headers:
+    - Content-Type: application/json
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Topping deleted"
+    }
+    ```
+
+- Error response: Topping not found
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
+    ```json
+    {
+      "message": "Topping not found",
       "statusCode": 404
     }
     ```
 
 ## FEATURE 4: WISH LIST
 
-### Add item to wishlist
+### Add drink to wishlist
 
-Add an item to a user's wishlist
+Add an drink to a user's wishlist
 
 - Require Authentication: true
 - Require proper authorization: Wishlist must be owned by the current user
@@ -1041,7 +1235,7 @@ Add an item to a user's wishlist
 
     ```json
     {
-      "item_id": 1
+      "drink_id": 1
     }
     ```
 
@@ -1056,11 +1250,11 @@ Add an item to a user's wishlist
     {
       "id": 1,
       "user_id": 1,
-      "item_id": 1
+      "drink_id": 1
     }
     ```
 
-- Error response: Item not found
+- Error response: Drink not found
 
   - Status Code: 404
   - Headers:
@@ -1069,7 +1263,7 @@ Add an item to a user's wishlist
 
     ```json
     {
-      "message": "Item not found",
+      "message": "Drink not found",
       "statusCode": 404
     }
     ```
@@ -1121,16 +1315,16 @@ Get a user's wishlist by user id
     }
     ```
 
-### Delete item from wishlist
+### Delete drink from wishlist
 
-Delete an item from a user's wishlist
+Delete an drink from a user's wishlist
 
 - Require Authentication: true
 - Require proper authorization: Wishlist must belong to the current user
 - Request
 
   - Method: /DELETE
-  - URL: /api/users/:userId/wishlists/:wishlistItemId
+  - URL: /api/users/:userId/wishlists/:wishlistDrinkId
   - Headers:
     - Content-Type: application/json
   - Body: none
@@ -1144,11 +1338,11 @@ Delete an item from a user's wishlist
 
     ```json
     {
-      "message": "Item deleted"
+      "message": "Drink removed from the wishlist"
     }
     ```
 
-- Error response: Item not found
+- Error response: Drink not found
 
   - Status Code: 404
   - Headers:
@@ -1157,7 +1351,7 @@ Delete an item from a user's wishlist
 
     ```json
     {
-      "message": "Item not found in the wishlist",
+      "message": "Drink not found in the wishlist",
       "statusCode": 404
     }
     ```
