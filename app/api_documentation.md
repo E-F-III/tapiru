@@ -336,7 +336,7 @@ Returns information about a business by id
     }
     ```
 
-## Update business by id
+### Update business by id
 
 Update business data by id
 
@@ -437,7 +437,7 @@ Update business data by id
         "statusCode": 404
     }
 
-## Delete business by id
+### Delete business by id
 
 Delete a business by id
 
@@ -478,7 +478,7 @@ Delete a business by id
     }
     ```
 
-### FEATURE 2: MENUS
+## FEATURE 2: MENUS
 
 ### Create menu
 
@@ -756,7 +756,7 @@ Delete a menu by id
     }
     ```
 
-### FEATURE 3: ITEMS
+## FEATURE 3: ITEMS
 
 ### Create drink for a menu
 
@@ -841,7 +841,7 @@ Create a drink for a menu
     }
     ```
 
-Create a topping for a menu
+### Create a topping for a menu
 
 - Require Authentication: true
 - Require proper authorization: Menu must be owned a business created by the current user
