@@ -31,3 +31,19 @@ def create_menu():
     else:
         return {"error": validation_errors_to_error_messages(form.errors)}, 401
 
+#Update Menu, needs to be tested
+@menu_routes.route("/", methods=["PUT"])
+@login_required
+def update_menu():
+    form = MenuForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        menu = Menu.query.get(id)
+        menu.name = form.name.data
+        menu.description = form.description.data
+        menu.toppings = form.toppings.data
+
+        db.session.commit()
+        return jsonify(menu.to_dict()), 200
+    else:
+        return {"errors": validation_errors_to_error_messages(form.errors)}, 401
