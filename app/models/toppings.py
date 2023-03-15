@@ -20,7 +20,6 @@ class Toppings(db.Model):
     ## relationships
     menu = db.relationship("Menus", back_populates="toppings_relationship")
 
-
     def to_dict(self):
         response = {
             "id": self.id,
