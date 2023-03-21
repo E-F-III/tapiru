@@ -25,3 +25,21 @@ def create_drink():
         return jsonify(new_drink.to_dict()), 200
     else:
         return {"error": validation_errors_to_error_messages(form.errors)}, 401
+
+# Update drink, needs to be test
+@drink_routes.route("/", methods=["PUT"])
+@login_required
+def update_drink():
+    form = DrinkForm
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        drink = Drinks.query.get(id)
+        drink.name = form.name.data
+        drink.type = form.type.data
+        drink.description = form.type.data
+        drink.image = form.image.data
+
+        db.session.commit()
+        return jsonify(drink.to_dict()), 200
+    else:
+        return {"errors": validation_errors_to_error_messages(form.errors)}, 401
