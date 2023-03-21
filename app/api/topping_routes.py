@@ -25,3 +25,13 @@ def create_toppings():
         return {"error": validation_errors_to_error_messages(form.errors)}, 401
 
 # Delete topping
+@topping_routes.route("/<int:topping_id", methods=["DELETE"])
+@login_required
+def delete_topping(topping_id):
+    topping = Toppings.query.filter(Toppings.id == topping_id).first()
+    db.session.delete(topping)
+    db.session.commit()
+    return (
+        jsonify({"message": "Topping successfully deleted", "status-code": 200}),
+        200
+    )
