@@ -43,3 +43,15 @@ def update_drink():
         return jsonify(drink.to_dict()), 200
     else:
         return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+#Delete drink
+@drink_routes.route("<int:drink_id>", methods=["DELETE"])
+@login_required
+def delete_drink(drink_id):
+    drink = Drinks.query.filter(Drinks.id == drink_id).first()
+    db.session.delete(drink)
+    db.session.commit()
+    return (
+        jsonify({"message": "Drink successfully deleted", "status-code": 200}),
+        200
+    )

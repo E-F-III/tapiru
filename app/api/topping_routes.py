@@ -41,7 +41,7 @@ def update_topping():
         return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 # Delete topping
-@topping_routes.route("/<int:topping_id", methods=["DELETE"])
+@topping_routes.route("/<int:topping_id>", methods=["DELETE"])
 @login_required
 def delete_topping(topping_id):
     topping = Toppings.query.filter(Toppings.id == topping_id).first()
