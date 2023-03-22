@@ -77,3 +77,25 @@ def edit_business(businessId):
         return new_business.to_dict(), 201
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@business_routes.route("/", methods=["DELETE"])
+@login_required
+def delete_a_business(businessId):
+    """
+    Function to delete an existing business (get business by their id)
+    """
+    business_to_delete = Business.query.get(businessId)
+
+    if current_user.id == business_to_delete.owner_id:
+
+        db.session.delete(business_to_delete)
+        db.session.commit()
+
+        return {
+            "message": "Successfully deleted!"
+        }
+
+    return {
+        "message": "Unauthorized User", "Status Code": 403
+    }
