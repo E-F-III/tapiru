@@ -43,3 +43,37 @@ def create_business():
         db.session.commit()
         return new_business.to_dict(), 201
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@business_routes.route("/", methods=["PUT"])
+@login_required
+def edit_business(businessId):
+    """
+    Function to edit an existing business (get business by their id)
+    """
+    form = BusinessForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+
+    business_to_edit = Business.query.get(businessId)
+
+    if form.validate_on_submit():
+
+        business_to_edit.owner_id = current_user.id
+
+        business_to_edit.name = form.data['name']
+        business_to_edit.street_address = form.data['street_address']
+        business_to_edit.city = form.data['city']
+        business_to_edit.region = form.data['region']
+        business_to_edit.postal_code = form.data['postal_code']
+        business_to_edit.country = form.data['country']
+        business_to_edit.website = form.data['website']
+        business_to_edit.telephone = form.data['telephone']
+        business_to_edit.timezone = form.data['timezone']
+        business_to_edit.currency = form.data['currency']
+        business_to_edit.about_location = form.data['about_location']
+
+        db.session.add(new_business)
+        db.session.commit()
+        return new_business.to_dict(), 201
+
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
