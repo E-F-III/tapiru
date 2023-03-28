@@ -32,9 +32,11 @@ def create_checkin():
 
         # Add toppings to checkin
         for topping in form.data["toppings"]:
+
             # Check if toppings exist
             if not Toppings.query.get(topping):
                 return {'errors': ['Topping not found']}, 401
+
             # Add topping to checkin
             new_checkin.toppings.append(Toppings.query.get(topping))
 
@@ -50,8 +52,15 @@ def delete_checkin(id):
     Function that deletes a checkin
     '''
     checkin = Checkin.query.get(id)
-    if checkin:
-        db.session.delete(checkin)
-        db.session.commit()
-        return jsonify(checkin.to_dict()), 200
-    return {'errors': ['Checkin not found']}, 404
+
+    # Check if checkin exists
+    if not checkin:
+        return {'errors': ['Checkin not found']}, 404
+
+    # Check if user is authorized to delete checkin
+    if checkin.user_id != current_user.id:
+        return {'errors': ['Unauthorized']}, 401
+
+    db.session.delete(checkin)
+    db.session.commit()
+    return jsonify(checkin.to_dict()), 200
