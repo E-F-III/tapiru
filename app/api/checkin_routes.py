@@ -42,3 +42,16 @@ def create_checkin():
         return jsonify(new_checkin.to_dict()), 200
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@checkin_routes.route("/<int:id>", methods=["DELETE"])
+@login_required
+def delete_checkin(id):
+    '''
+    Function that deletes a checkin
+    '''
+    checkin = Checkin.query.get(id)
+    if checkin:
+        db.session.delete(checkin)
+        db.session.commit()
+        return jsonify(checkin.to_dict()), 200
+    return {'errors': ['Checkin not found']}, 404
