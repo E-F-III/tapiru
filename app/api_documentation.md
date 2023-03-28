@@ -302,7 +302,7 @@ user's information.
 
 Returns information about a business by id
 
-- Require Authentication: true
+- Require Authentication: false
 - Request
 
   - Method: GET
@@ -344,7 +344,7 @@ Update business data by id
 - Require proper authorization: Business must belong to the current user
 - Request
 
-  - Method: /PUT
+  - Method: PUT
   - URL: /api/businesses
   - Headers:
     - Content-Type: application/json
@@ -445,7 +445,7 @@ Delete a business by id
 - Require proper authorization: Business must belong to the current user
 - Request
 
-  - Method: /DELETE
+  - Method: DELETE
   - URL: /api/businesses/:id
   - Headers:
     - Content-Type: application/json
@@ -1084,7 +1084,6 @@ Update topping data by id
     {
       "name": "Topping name",
       "price": 0.99,
-      "type": "Milk Tea",
     }
     ```
 
