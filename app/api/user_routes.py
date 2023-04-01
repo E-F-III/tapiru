@@ -24,6 +24,7 @@ def user(id):
     user = User.query.get(id)
     return user.to_dict()
 
+
 @user_routes.route('/<int:id>/checkins')
 @login_required
 def user_checkins(id):
@@ -31,4 +32,9 @@ def user_checkins(id):
     Query for a user's checkins by id and returns them in a list of checkin dictionaries
     """
     user = User.query.get(id)
+
+    # Check if user exists
+    if not user:
+        return {'errors': ['User not found']}, 404
+
     return {'checkins': [checkin.to_dict() for checkin in user.checkins]}

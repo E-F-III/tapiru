@@ -6,6 +6,7 @@ from .auth_routes import validation_errors_to_error_messages
 
 checkin_routes = Blueprint("checkins", __name__, url_prefix="/checkins")
 
+
 @checkin_routes.route("/", methods=["POST"])
 @login_required
 def create_checkin():
@@ -43,7 +44,8 @@ def create_checkin():
         db.session.commit()
         return jsonify(new_checkin.to_dict()), 200
 
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
 
 @checkin_routes.route("/<int:id>", methods=["DELETE"])
 @login_required
