@@ -9,6 +9,7 @@ menu_routes = Blueprint("menus", __name__, url_prefix="/menus")
 # Get drinks + toppings, needs to be tested
 @menu_routes.route("")
 def all_drinks_toppings():
+    # Query for all drinks and toppings of menu
     drinks = Drinks.query.all()
     toppings = Toppings.query.all()
     return {

@@ -32,8 +32,10 @@ def create_menu():
     form = MenuForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     business = Business.query.get(id)
+    # Validates business owner
     if business.owner_id == current_user.id:
         if form.validate_on_submit():
+            # Form creation
             new_menu = Menu(
                 name = form.name.data,
                 business_id = form.business.data,
@@ -44,6 +46,7 @@ def create_menu():
             db.session.commit()
             return jsonify(new_menu.to_dict()), 201
     else:
+        # Forbidden response if not owner
         return {"error": validation_errors_to_error_messages(form.errors)}, 401
 
 
