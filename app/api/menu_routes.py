@@ -6,7 +6,7 @@ from .auth_routes import validation_errors_to_error_messages
 
 menu_routes = Blueprint("menus", __name__, url_prefix="/menus")
 
-#Get All Menus
+#Get Menus
 @menu_routes.route("")
 def all_menus():
     menus = Menu.query.all()

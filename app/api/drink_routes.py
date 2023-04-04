@@ -44,7 +44,7 @@ def update_drink():
             db.session.commit()
             return jsonify(drink.to_dict()), 200
     else:
-        return {"errors": validation_errors_to_error_messages(form.errors)}, 404
+        return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 #Delete drink
 @drink_routes.route("<int:drink_id>", methods=["DELETE"])
