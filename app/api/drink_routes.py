@@ -51,9 +51,15 @@ def update_drink():
 @login_required
 def delete_drink(drink_id):
     drink = Drinks.query.filter(Drinks.id == drink_id).first()
-    db.session.delete(drink)
-    db.session.commit()
-    return (
-        jsonify({"message": "Drink successfully deleted", "status-code": 200}),
-        200
-    )
+    if drink:
+        db.session.delete(drink)
+        db.session.commit()
+        return (
+            jsonify({"message": "Drink successfully deleted", "status-code": 200}),
+            200
+        )
+    else:
+        return (
+            jsonify({"message": "Drink not found", "status-code": 404}),
+            404
+            )

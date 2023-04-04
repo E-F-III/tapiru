@@ -63,9 +63,15 @@ def update_menu():
 @login_required
 def delete_menu(menu_id):
     menu = Menu.query.filter(Menu.id == menu_id).first()
-    db.session.delete(menu)
-    db.session.commit()
-    return (
-        jsonify({"message": "Menu successfully deleted", "status-code": 200}),
-        200
-    )
+    if menu:
+        db.session.delete(menu)
+        db.session.commit()
+        return (
+            jsonify({"message": "Menu successfully deleted", "status-code": 200}),
+            200
+        )
+    else:
+        return (
+            jsonify({"message": "Menu not found", "status-code": 404}),
+            404
+            )
