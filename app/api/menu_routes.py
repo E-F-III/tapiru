@@ -16,25 +16,6 @@ def all_drinks_toppings():
         "toppings": [t.to_dict() for t in toppings]
             }
 
-#Create Menu
-@menu_routes.route("/", methods=["POST"])
-@login_required
-def create_menu():
-    form = MenuForm()
-    form["csrf_token"].data = request.cookies["csrf_token"]
-    if form.validate_on_submit():
-        new_menu = Menu(
-            name = form.name.data,
-            business_id = form.business.data,
-            description = form.description.data,
-            toppings = form.toppings.data
-        )
-        db.session.add(new_menu)
-        db.session.commit()
-        return jsonify(new_menu.to_dict()), 201
-    else:
-        return {"error": validation_errors_to_error_messages(form.errors)}, 401
-
 #Update Menu, needs to be tested
 @menu_routes.route("/", methods=["PUT"])
 @login_required

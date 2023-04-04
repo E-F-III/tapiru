@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, session, request
 from app.models import Business, db, Menu
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms.business_form import BusinessForm
+from app.forms.menu_form import MenuForm
 from app.api.auth_routes import validation_errors_to_error_messages
 
 business_routes = Blueprint('business', __name__)
@@ -23,6 +24,28 @@ def all_menus():
     """
     menus = Menu.query.all()
     return {"menus": [m.to_dict() for m in menus]}
+
+#Create Menu
+@business_routes.route("/", methods=["POST"])
+@login_required
+def create_menu():
+    form = MenuForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    business = Business.query.get(id)
+    if business.owner_id == current_user.id:
+        if form.validate_on_submit():
+            new_menu = Menu(
+                name = form.name.data,
+                business_id = form.business.data,
+                description = form.description.data,
+                toppings = form.toppings.data
+            )
+            db.session.add(new_menu)
+            db.session.commit()
+            return jsonify(new_menu.to_dict()), 201
+    else:
+        return {"error": validation_errors_to_error_messages(form.errors)}, 401
+
 
 @business_routes.route("/", methods=["POST"])
 @login_required
