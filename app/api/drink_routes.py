@@ -30,19 +30,21 @@ def create_drink():
 @drink_routes.route("/", methods=["PUT"])
 @login_required
 def update_drink():
-    form = DrinkForm
+    form = DrinkForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    if form.validate_on_submit():
-        drink = Drinks.query.get(id)
-        drink.name = form.name.data
-        drink.type = form.type.data
-        drink.description = form.type.data
-        drink.image = form.image.data
+    drink = Drinks.query.filter(Drinks.id).first()
+    if drink:
+        if form.validate_on_submit():
+            drink = Drinks.query.get(id)
+            drink.name = form.name.data
+            drink.type = form.type.data
+            drink.description = form.type.data
+            drink.image = form.image.data
 
-        db.session.commit()
-        return jsonify(drink.to_dict()), 200
+            db.session.commit()
+            return jsonify(drink.to_dict()), 200
     else:
-        return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+        return {"errors": validation_errors_to_error_messages(form.errors)}, 404
 
 #Delete drink
 @drink_routes.route("<int:drink_id>", methods=["DELETE"])
