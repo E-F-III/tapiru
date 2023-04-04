@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import Business, db
+from app.models import Business, db, Menu
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms.business_form import BusinessForm
 from app.api.auth_routes import validation_errors_to_error_messages
@@ -15,6 +15,14 @@ def get_business_by_id(businessId):
 
     return business.to_dict()
 
+#Get Menus
+@business_routes.route("")
+def all_menus():
+    """
+    Query for menus and return it as a dictionary
+    """
+    menus = Menu.query.all()
+    return {"menus": [m.to_dict() for m in menus]}
 
 @business_routes.route("/", methods=["POST"])
 @login_required
