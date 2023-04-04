@@ -6,16 +6,6 @@ from .auth_routes import validation_errors_to_error_messages
 
 drink_routes = Blueprint("drinks", __name__, url_prefix="/drinks")
 
-# Get all drinks + toppings, needs to be tested
-@drink_routes.route("")
-def all_drinks_toppings():
-    drinks = Drinks.query.all()
-    toppings = Toppings.query.all()
-    return {
-        "drinks": [d.to_dict() for d in drinks],
-        "toppings": [t.to_dict() for t in toppings]
-            }
-
 # Create drink
 @drink_routes.route("/", methods=["POST"])
 @login_required
@@ -32,7 +22,7 @@ def create_drink():
         )
         db.session.add(new_drink)
         db.session.commit()
-        return jsonify(new_drink.to_dict()), 200
+        return jsonify(new_drink.to_dict()), 201
     else:
         return {"error": validation_errors_to_error_messages(form.errors)}, 401
 
