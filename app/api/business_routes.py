@@ -30,6 +30,7 @@ def create_business():
     """
     form = BusinessForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+
     if form.validate_on_submit():
         new_business = Business(
             name=form.data.name,
@@ -45,9 +46,11 @@ def create_business():
             about_location=form.data.about_location,
             owner_id=current_user.id
         )
+
         db.session.add(new_business)
         db.session.commit()
         return new_business.to_dict(), 201
+
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
