@@ -45,7 +45,7 @@ def create_business():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@business_routes.route("/", methods=["PUT"])
+@business_routes.route("/<int:businessId>", methods=["PUT"])
 @login_required
 def edit_business(businessId):
     """
@@ -55,6 +55,18 @@ def edit_business(businessId):
     form["csrf_token"].data = request.cookies["csrf_token"]
 
     business_to_edit = Business.query.get(businessId)
+
+    if not business_to_edit:
+        return {
+            "message": "Business was not found!",
+            "statusCode": 404
+        }, 404
+
+    if current_user.id != business_to_edit.owner_id:
+        return {
+            "message": "Only business owner's are authorized to make updates!",
+            "statusCode": 403
+        }, 403
 
     if form.validate_on_submit():
 
@@ -71,15 +83,17 @@ def edit_business(businessId):
         business_to_edit.timezone = form.data['timezone']
         business_to_edit.currency = form.data['currency']
         business_to_edit.about_location = form.data['about_location']
+        business_to_edit.payment_types = form.data['payment_types']
 
-        db.session.add(new_business)
         db.session.commit()
-        return new_business.to_dict(), 201
+        return business_to_edit.to_dict(), 201
 
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {
+        'errors': validation_errors_to_error_messages(form.errors)
+    }, 401
 
 
-@business_routes.route("/", methods=["DELETE"])
+@business_routes.route("/<int:businessId>", methods=["DELETE"])
 @login_required
 def delete_a_business(businessId):
     """
