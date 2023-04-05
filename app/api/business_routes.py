@@ -13,6 +13,12 @@ def get_business_by_id(businessId):
     """
     business = Business.query.get(businessId)
 
+    if not business:
+        return {
+            "message": "Business was not found!",
+            "statusCode": 404
+        }, 404
+
     return business.to_dict()
 
 
