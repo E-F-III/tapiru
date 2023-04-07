@@ -19,7 +19,6 @@ class Business(db.Model):
     timezone = db.Column(db.String(255), nullable=False)
     currency = db.Column(db.String(255), nullable=False)
     about_location = db.Column(db.String(255), nullable=False)
-    payment_types = db.Column(db.String(255), nullable=False)
 
     #Relationships for Business: ( 1 - 1 Business and Owner)
     owner = db.relationship("User", back_populates="business")

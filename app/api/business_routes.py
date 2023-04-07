@@ -33,6 +33,7 @@ def create_business():
 
     if form.validate_on_submit():
         new_business = Business(
+            owner_id=current_user.id
             name=form.data.name,
             street_address=form.data.street_address,
             city=form.data.city,
@@ -44,7 +45,6 @@ def create_business():
             timezone=form.data.timezone,
             currency=form.data.currency,
             about_location=form.data.about_location,
-            owner_id=current_user.id
         )
 
         db.session.add(new_business)
@@ -80,7 +80,6 @@ def edit_business(businessId):
     if form.validate_on_submit():
 
         business_to_edit.owner_id = current_user.id
-
         business_to_edit.name = form.data['name']
         business_to_edit.street_address = form.data['street_address']
         business_to_edit.city = form.data['city']
@@ -92,7 +91,6 @@ def edit_business(businessId):
         business_to_edit.timezone = form.data['timezone']
         business_to_edit.currency = form.data['currency']
         business_to_edit.about_location = form.data['about_location']
-        business_to_edit.payment_types = form.data['payment_types']
 
         db.session.commit()
         return business_to_edit.to_dict(), 201
@@ -109,6 +107,12 @@ def delete_a_business(businessId):
     Function to delete an existing business (get business by their id)
     """
     business_to_delete = Business.query.get(businessId)
+
+    if not business_to_delete:
+        return {
+            "message": "Business was not found!",
+            "statusCode": 404
+        }, 404
 
     if current_user.id == business_to_delete.owner_id:
 
