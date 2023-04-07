@@ -33,7 +33,7 @@ def create_business():
 
     if form.validate_on_submit():
         new_business = Business(
-            owner_id=current_user.id
+            owner_id=current_user.id,
             name=form.data.name,
             street_address=form.data.street_address,
             city=form.data.city,
@@ -44,7 +44,7 @@ def create_business():
             telephone=form.data.telephone,
             timezone=form.data.timezone,
             currency=form.data.currency,
-            about_location=form.data.about_location,
+            about_location=form.data.about_location
         )
 
         db.session.add(new_business)
