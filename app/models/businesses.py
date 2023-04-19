@@ -5,8 +5,6 @@ class Business(db.Model):
     __tablename__ = "businesses"
 
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-
     name = db.Column(db.String(255), nullable=False)
     logo_url = db.Column(db.String(255), nullable=False)
     street_address = db.Column(db.String(255), nullable=False)
@@ -20,11 +18,13 @@ class Business(db.Model):
     currency = db.Column(db.String(255), nullable=False)
     about_location = db.Column(db.String(255), nullable=False)
 
-    #Relationships for Business: ( 1 - 1 Business and Owner)
-    owner = db.relationship("User", back_populates="business")
+    # Foreign Keys:
+    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    # Businesses --> Menu Relationship:
-    menus = db.relationship("Menu", back_populates="")
+    # Relationships:
+    owner = db.relationship("User", back_populates="business")
+    menus = db.relationship("Menu", back_populates="business")
+    business_payments = db.relationship("Business_Payment", back_populates="business")
 
 
     def to_dict(self):

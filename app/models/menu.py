@@ -17,11 +17,12 @@ class Menu(db.Model):
     business_id = db.Column(db.Integer, db.ForeignKey('businesses.id') ,nullable=False)
 
     ## relationships
-    business = db.relationship("Businesses", back_populates="menu")
-    toppings_relationship = db.relationship("Toppings", back_populates="menu")
+    business = db.relationship("Business", back_populates="menu")
+    drinks = db.relationship("Drink", back_populates="menu")
+    toppings = db.relationship("Topping", back_populates="menu")
 
     def to_dict(self):
-        response = {
+        return {
             "id": self.id,
             "business_id": self.business_id,
             "name": self.name,
@@ -29,4 +30,3 @@ class Menu(db.Model):
             ## waiting for business table to add relationships stuff
             "toppings": [toppings.to_dict() for toppings in self.toppings_relationship]
         }
-        return response

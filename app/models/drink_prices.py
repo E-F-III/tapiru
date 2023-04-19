@@ -9,10 +9,10 @@ class Drink_Price(db.Model):
     # columns
     id = db.Column(db.Integer, primary_key=True)
     size = db.Column(db.String(), nullable=False)
-    price = db.Column(db.Integer(), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
 
     # foreign keys
-    drink_id = db.Column(db.String(), db.ForeignKey('drinks.id'), nullable=False)
+    drink_id = db.Column(db.Integer, db.ForeignKey('drinks.id'), nullable=False)
 
     # relationships
     drinks = db.relationship("Drink", back_populates="drink_types")

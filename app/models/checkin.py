@@ -10,7 +10,7 @@ class Checkin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sugar_level = db.Column(db.Integer, nullable=False)
     ice_level = db.Column(db.Integer, nullable=False)
-    datetime = db.Column(db.DateTime, nullable=False)
+    date_time = db.Column(db.DateTime, nullable=False)
 
     # foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -19,7 +19,7 @@ class Checkin(db.Model):
     # relationships
     user = db.relationship('User', back_populates='checkins')
     drink = db.relationship('Drink', back_populates='checkins')
-    toppings = db.relationship('Topping', secondary='checkin_toppings', back_populates='checkins')
+    toppings = db.relationship('Checkin_Topping', back_populates='checkins')
 
     def to_dict(self):
         return {

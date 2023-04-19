@@ -15,10 +15,11 @@ class Topping(db.Model):
     ## price example 420 = $4.20 in frontend
 
     ## foreign keys
-    menu_id = db.Column(db.Integer, db.ForeignKey('menus.id'),nullable=False)
+    menu_id = db.Column(db.Integer, db.ForeignKey('menus.id'), nullable=False)
 
     ## relationships
-    menu = db.relationship("Menus", back_populates="toppings_relationship")
+    menu = db.relationship("Menu", back_populates="toppings")
+    checkin_toppings = db.relationship("Checkin_Topping", back_populates="toppings")
 
     def to_dict(self):
         response = {
