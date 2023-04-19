@@ -20,10 +20,9 @@ class Topping(db.Model):
     checkin_toppings = db.relationship("Checkin_Topping", back_populates="toppings")
 
     def to_dict(self):
-        response = {
+        return {
             "id": self.id,
             "menu_id": self.menu_id,
             "name": self.name,
             "price": self.price
         }
-        return response

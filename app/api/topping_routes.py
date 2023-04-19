@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Menu, Business, Toppings
+from app.models import db, Menu, Business, Topping
 from ..forms.topping_form import ToppingForm
 from flask_login import current_user, login_required
 from .auth_routes import validation_errors_to_error_messages
@@ -13,7 +13,7 @@ def create_toppings():
     form = ToppingForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     if form.validate_on_submit():
-        new_topping = Toppings(
+        new_topping = Topping(
           name = form.name.data,
           menu_id = form.menu.data,
           price = form.price.data
@@ -31,7 +31,7 @@ def update_topping():
     form = ToppingForm
     form["csrf_token"].data = request.cookies["csrf_token"]
     if form.validate_on_submit():
-        topping = Toppings.query.get(id)
+        topping = Topping.query.get(id)
         topping.name = form.name.data
         topping.price = form.price.data
 
@@ -44,7 +44,7 @@ def update_topping():
 @topping_routes.route("/<int:topping_id>", methods=["DELETE"])
 @login_required
 def delete_topping(topping_id):
-    topping = Toppings.query.filter(Toppings.id == topping_id).first()
+    topping = Topping.query.filter(Topping.id == topping_id).first()
     db.session.delete(topping)
     db.session.commit()
     return (

@@ -12,7 +12,7 @@ class Menu(db.Model):
     description = db.Column(db.String(), nullable=False)
 
     ## foreign keys
-    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id') ,nullable=False)
+    business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
 
     ## relationships
     business = db.relationship("Business", back_populates="menu")
