@@ -1,6 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
 from .db import db, environment, SCHEMA
-from sqlalchemy.orm import relationship
 
 class Drink(db.Model):
     __tablename__ = 'drinks'

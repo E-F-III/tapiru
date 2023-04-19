@@ -1,6 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
 from .db import db, environment, SCHEMA
-from sqlalchemy.orm import relationship
 
 class Topping(db.Model):
     __tablename__ = 'toppings'
