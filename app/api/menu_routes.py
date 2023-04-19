@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models import db, Menu, Business, Drink, Topping
-from ..forms.menu_form import MenuForm
+from app.forms import MenuForm
 from flask_login import current_user, login_required
 from .auth_routes import validation_errors_to_error_messages
 

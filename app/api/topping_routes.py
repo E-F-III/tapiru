@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models import db, Menu, Business, Topping
-from ..forms.topping_form import ToppingForm
+from app.forms import ToppingForm
 from flask_login import current_user, login_required
 from .auth_routes import validation_errors_to_error_messages
 

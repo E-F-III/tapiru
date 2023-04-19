@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify, session, request
 from app.models import Business, db, Menu
 from flask_login import current_user, login_user, logout_user, login_required
-from app.forms.business_form import BusinessForm
-from app.forms.menu_form import MenuForm
+from app.forms import BusinessForm, MenuForm
 from app.api.auth_routes import validation_errors_to_error_messages
 
 business_routes = Blueprint('business', __name__)
