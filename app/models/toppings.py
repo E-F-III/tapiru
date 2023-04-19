@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .db import db, environment, SCHEMA
 from sqlalchemy.orm import relationship
 
-class Toppings(db.Model):
+class Topping(db.Model):
     __tablename__ = 'toppings'
 
     if environment == "production":

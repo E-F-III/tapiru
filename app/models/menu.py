@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .db import db, environment, SCHEMA
 from sqlalchemy.orm import relationship
 
-class Menus(db.Model):
+class Menu(db.Model):
     __tablename__ = 'menus'
 
     if environment == "production":

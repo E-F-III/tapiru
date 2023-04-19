@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .db import db, environment, SCHEMA
 from sqlalchemy.orm import relationship
 
-class Drinks(db.Model):
+class Drink(db.Model):
     __tablename__ = 'drinks'
 
     if environment == "production":

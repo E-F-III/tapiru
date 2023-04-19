@@ -1,6 +1,6 @@
 from .db import db, environment, SCHEMA
 
-class Drink_Prices(db.Model):
+class Drink_Price(db.Model):
     __tablename__ = "drink_prices"
 
     if environment == "production":
