@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 85f7261179d1
+Revision ID: 50ba44b5293f
 Revises: 
-Create Date: 2023-03-02 17:43:37.856605
+Create Date: 2023-04-19 12:00:04.206369
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '85f7261179d1'
+revision = '50ba44b5293f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,17 +33,8 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('business_payments',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('business_id', sa.Integer(), nullable=False),
-    sa.Column('type_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('businesses',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('owner_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('logo_url', sa.String(length=255), nullable=False),
     sa.Column('street_address', sa.String(length=255), nullable=False),
@@ -56,6 +47,7 @@ def upgrade():
     sa.Column('timezone', sa.String(length=255), nullable=False),
     sa.Column('currency', sa.String(length=255), nullable=False),
     sa.Column('about_location', sa.String(length=255), nullable=False),
+    sa.Column('owner_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['owner_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -64,6 +56,14 @@ def upgrade():
     sa.Column('type', sa.String(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('business_payments',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('business_id', sa.Integer(), nullable=False),
+    sa.Column('type_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['business_id'], ['businesses.id'], ),
+    sa.ForeignKeyConstraint(['type_id'], ['payment_types.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('menus',
@@ -76,12 +76,13 @@ def upgrade():
     )
     op.create_table('drinks',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('drink_type', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
     sa.Column('image', sa.String(), nullable=True),
     sa.Column('menu_id', sa.Integer(), nullable=False),
+    sa.Column('type_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['menu_id'], ['menus.id'], ),
+    sa.ForeignKeyConstraint(['type_id'], ['drink_types.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('toppings',
@@ -94,17 +95,17 @@ def upgrade():
     )
     op.create_table('Wishlists',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('owner_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('drink_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
-    sa.ForeignKeyConstraint(['owner_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('checkins',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('sugar_level', sa.Integer(), nullable=False),
     sa.Column('ice_level', sa.Integer(), nullable=False),
-    sa.Column('datetime', sa.DateTime(), nullable=False),
+    sa.Column('date_time', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('drink_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
@@ -115,7 +116,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('size', sa.String(), nullable=False),
     sa.Column('price', sa.Integer(), nullable=False),
-    sa.Column('drink_id', sa.String(), nullable=False),
+    sa.Column('drink_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -130,9 +131,9 @@ def downgrade():
     op.drop_table('toppings')
     op.drop_table('drinks')
     op.drop_table('menus')
+    op.drop_table('business_payments')
     op.drop_table('payment_types')
     op.drop_table('businesses')
-    op.drop_table('business_payments')
     op.drop_table('users')
     op.drop_table('drink_types')
     # ### end Alembic commands ###
