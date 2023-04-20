@@ -18,10 +18,11 @@ class Drink(db.Model):
     type_id = db.Column(db.Integer, db.ForeignKey('drink_types.id'), nullable=False)
 
     ##relationships
+    menu = db.relationship("Menu", back_populates="drinks")
     wishlists = db.relationship("Wishlist", back_populates="drinks")
-    checkins = db.relationship("Checkin", back_populates="drinks")
-    drink_prices = db.relationship("Drink_Price", back_populates="drinks")
-    drink_type = db.relationship("Drink_Type", back_populates="drinks")
+    checkins = db.relationship("Checkin", back_populates="drink")
+    drink_prices = db.relationship("Drink_Price", back_populates="drink")
+    drink_type = db.relationship("Drink_Type", back_populates="drink")
 
     def to_dict(self):
         return {

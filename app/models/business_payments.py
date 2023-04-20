@@ -13,7 +13,7 @@ class Business_Payment(db.Model):
   type_id = db.Column(db.Integer, db.ForeignKey('payment_types.id'), nullable=False)
 
 # RELATIONSHIP
-  payment_type = db.relationship("Payment_Type", back_populates="business_payments", cascade="all, delete")
+  payment_types = db.relationship("Payment_Type", back_populates="business_payments", cascade="all, delete")
   business = db.relationship("Business", back_populates="business_payments", cascade="all, delete")
 
   def to_dict(self):

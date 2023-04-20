@@ -11,7 +11,7 @@ class Drink_Type(db.Model):
     type = db.Column(db.String(), nullable=False)
 
     # relationships
-    drink = db.relationship("Drink", back_populates="drink_types")
+    drink = db.relationship("Drink", back_populates="drink_type")
 
     def to_dict(self):
         return {

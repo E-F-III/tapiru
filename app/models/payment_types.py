@@ -10,11 +10,7 @@ class Payment_Type(db.Model):
   id = db.Column("id", db.Integer, primary_key=True)
   type = db.Column("type", db.String, nullable=False)
 
-# FOREIGN KEY
-  user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-
 # RELATIONSHIP
-  user = db.relationship("User", back_populates="payment_types", cascade="all, delete")
   business_payments = db.relationship("Business_Payment", back_populates="payment_types", cascade="all, delete")
 
   def to_dict(self):

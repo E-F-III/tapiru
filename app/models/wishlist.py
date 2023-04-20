@@ -15,7 +15,7 @@ class Wishlist(db.Model):
 
     # relationships
     user = db.relationship("User", back_populates="wishlist")
-    drinks = db.relationship("Drink", back_populates="wishlist")
+    drinks = db.relationship("Drink", back_populates="wishlists")
 
     def to_dict(self):
         return {

@@ -15,7 +15,7 @@ class Menu(db.Model):
     business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable=False)
 
     ## relationships
-    business = db.relationship("Business", back_populates="menu")
+    business = db.relationship("Business", back_populates="menus")
     drinks = db.relationship("Drink", back_populates="menu")
     toppings = db.relationship("Topping", back_populates="menu")
 
