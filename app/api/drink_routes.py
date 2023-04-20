@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Menu, Business, Toppings, Drinks
-from ..forms.drink_form import DrinkForm
+from app.models import db, Menu, Business, Topping, Drink
+from app.forms import BusinessForm, MenuForm, ToppingForm, DrinkForm
 from flask_login import current_user, login_required
 from .auth_routes import validation_errors_to_error_messages
 
@@ -13,7 +13,7 @@ def create_drink():
     form = DrinkForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     if form.validate_on_submit():
-        new_drink = Drinks(
+        new_drink = Drink(
           name = form.name.data,
           type = form.type.data,
           description = form.description.data,
@@ -32,10 +32,10 @@ def create_drink():
 def update_drink():
     form = DrinkForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    drink = Drinks.query.filter(Drinks.id).first()
+    drink = Drink.query.filter(Drink.id).first()
     if drink:
         if form.validate_on_submit():
-            drink = Drinks.query.get(id)
+            drink = Drink.query.get(id)
             drink.name = form.name.data
             drink.type = form.type.data
             drink.description = form.type.data
@@ -50,7 +50,7 @@ def update_drink():
 @drink_routes.route("<int:drink_id>", methods=["DELETE"])
 @login_required
 def delete_drink(drink_id):
-    drink = Drinks.query.filter(Drinks.id == drink_id).first()
+    drink = Drink.query.filter(Drink.id == drink_id).first()
     if drink:
         db.session.delete(drink)
         db.session.commit()

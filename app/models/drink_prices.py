@@ -1,6 +1,6 @@
 from .db import db, environment, SCHEMA
 
-class Drink_Prices(db.Model):
+class Drink_Price(db.Model):
     __tablename__ = "drink_prices"
 
     if environment == "production":
@@ -9,13 +9,13 @@ class Drink_Prices(db.Model):
     # columns
     id = db.Column(db.Integer, primary_key=True)
     size = db.Column(db.String(), nullable=False)
-    price = db.Column(db.Integer(), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
 
     # foreign keys
-    drink_id = db.Column(db.String(), db.ForeignKey('drinks.id'), nullable=False)
+    drink_id = db.Column(db.Integer, db.ForeignKey('drinks.id'), nullable=False)
 
     # relationships
-    drinks = db.relationship("Drink", back_populates="drink_types")
+    drink = db.relationship("Drink", back_populates="drink_prices")
 
     def to_dict(self):
         return {

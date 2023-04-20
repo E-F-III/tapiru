@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.models import db, Menu, Business, Drinks, Toppings
-from ..forms.menu_form import MenuForm
+from app.models import db, Menu, Business, Drink, Topping
+from app.forms import MenuForm
 from flask_login import current_user, login_required
 from .auth_routes import validation_errors_to_error_messages
 
@@ -10,8 +10,8 @@ menu_routes = Blueprint("menus", __name__, url_prefix="/menus")
 @menu_routes.route("")
 def all_drinks_toppings():
     # Query for all drinks and toppings of menu
-    drinks = Drinks.query.all()
-    toppings = Toppings.query.all()
+    drinks = Drink.query.all()
+    toppings = Topping.query.all()
     return {
         "drinks": [d.to_dict() for d in drinks],
         "toppings": [t.to_dict() for t in toppings]

@@ -1,6 +1,6 @@
 from .db import db, environment, SCHEMA
 
-class Drink_Types(db.Model):
+class Drink_Type(db.Model):
     __tablename__ = "drink_types"
 
     if environment == "production":
@@ -11,7 +11,7 @@ class Drink_Types(db.Model):
     type = db.Column(db.String(), nullable=False)
 
     # relationships
-    drinks = db.relationship("Drink", back_populates="drink_types")
+    drink = db.relationship("Drink", back_populates="drink_type")
 
     def to_dict(self):
         return {

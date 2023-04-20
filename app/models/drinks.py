@@ -1,8 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
 from .db import db, environment, SCHEMA
-from sqlalchemy.orm import relationship
 
-class Drinks(db.Model):
+class Drink(db.Model):
     __tablename__ = 'drinks'
 
     if environment == "production":
@@ -11,27 +9,27 @@ class Drinks(db.Model):
 
     ## columns
     id = db.Column(db.Integer, primary_key=True)
-    drink_type = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
     image = db.Column(db.String())
 
     ## foreign keys
     menu_id = db.Column(db.Integer, db.ForeignKey('menus.id'), nullable=False)
-
+    type_id = db.Column(db.Integer, db.ForeignKey('drink_types.id'), nullable=False)
 
     ##relationships
-    wishlist = db.relationship("Wishlists", back_populates="drinks")
-    checkin = db.relationship("Checkins", back_populates="drinks")
-    drink_prices = db.relationship("Drink_Prices", back_populates="drinks")
+    menu = db.relationship("Menu", back_populates="drinks")
+    wishlists = db.relationship("Wishlist", back_populates="drinks")
+    checkins = db.relationship("Checkin", back_populates="drink")
+    drink_prices = db.relationship("Drink_Price", back_populates="drink")
+    drink_type = db.relationship("Drink_Type", back_populates="drink")
 
     def to_dict(self):
-        response = {
+        return {
             "id": self.id,
             "menu_id": self.menu_id,
-            "type": self.drink_type,
+            "type_id": self.type_id,
             "name": self.name,
             "description": self.description,
             "image": self.image
         }
-        return response

@@ -20,7 +20,8 @@ class User(db.Model, UserMixin):
     #Relationships for User:
     #User can have multiple businesses? No. (1 - 1 User / Business)
     business = db.relationship("Business", back_populates="owner")
-
+    wishlist = db.relationship("Wishlist", back_populates="user")
+    checkins = db.relationship("Checkin", back_populates="user")
 
     @property
     def password(self):
