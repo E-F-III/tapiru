@@ -25,3 +25,17 @@ def create_wishlist():
         return {"error": validation_errors_to_error_messages(form.errors)}, 401
     
 
+# Delete a wishlist 
+@wishlist_routes.route("/<int:id>", methods=["DELETE"])
+@login_required
+def delete_wishlist(id):
+    wishlist = Wishlist.query.get(id)
+    if not wishlist:
+        return {"error": "Wishlist item not found with the provided ID"}, 404
+    else:
+        db.session.delete(wishlist)
+        db.session.commit()
+        return (
+            jsonify({"message": "Wishlist item successfully deleted", "status-code": 200}),
+            200
+        )
