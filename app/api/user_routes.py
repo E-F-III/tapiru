@@ -23,3 +23,11 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
+
+@user_routes.route("/<int:id>/wishlist")
+@login_required
+def user_wishlist(id):
+    user = User.query.get(id)
+    if not user:
+        return {'error': "User not found"}, 404
+    return [item.to_dict() for item in user.wishlist]
